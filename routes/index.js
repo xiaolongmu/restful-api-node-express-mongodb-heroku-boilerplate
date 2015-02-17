@@ -14,37 +14,15 @@ var Person = require("../models/model.js"); //our db model
 // home page route to show all suggested foods
 exports.index = function(req, res) {
 	
-	console.log("main page requested");
+	console.log("main route requested");
 
-	// we want to show all the foods that are already in the database
+	var data = {
+		status: 'OK',
+		message: 'Welcome to the itpeeps-map v1 API'
+	}
 
-	// query for all foods
-	// .find will accept 4 arguments
-	//  see http://mongoosejs.com/docs/api.html#model_Model.find
-	// 1) an object for filtering {} (empty here)
-	// 2) a string of properties to return, 'name slug upvotes photo recommendedB' will return only those attributes of the model
-	// 3) an object for sorting {sort:'-upvotes'}, the most upvoted will come first
-	// 4) callback function with (err, data)
-	//    err will include any error that occurred
-	//	  data is our resulting array of food objects returned from the database
-	Food.find({}, 'name slug upvotes photo recommendedBy',{sort:'-upvotes'}, function(err, data){
-
-		if (err) {
-			console.log(err);
-			res.send("Unable to query database for food").status(500);
-		};
-
-		console.log("retrieved " + data.length + " food products from database");
-
-		//build and render the template data object, which we will pass into the page
-		var templateData = {
-			food : data,
-			pageTitle : "ITP Snacks! (" + data.length + " Food Products)"
-		}
-
-		res.render('index.html', templateData);
-
-	});
+	// respond back with this data
+	res.json(data);
 
 }
 

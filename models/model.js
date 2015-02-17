@@ -2,11 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var personSchema = new Schema({
-	slug : { type: String, lowercase: true, required: true, unique: true },
-	name : { type: String, required: true, validate: [nameValidation, 'Name cannot be blank.']},
-	upvotes: {type: Number, default: 0},
-	photo: String,
-	person: String,
+	name: String,
+	locationGeo : { type: [Number], index: { type: '2dsphere', sparse: true } },
+	locationName : String,	
 	dateAdded : { type: Date, default: Date.now },
 })
 

@@ -26,6 +26,16 @@ app.use(methodOverride());
 app.db = mongoose.connect(process.env.MONGOLAB_URI);
 console.log("connected to database");
 
+// api base URI is at /api/
+
+// API Routes 
+
+// CREATE - http://appname.com/api/create (POST)
+// RETRIEVE 1 - http://appname.com/api/get/:id (GET)
+// RETRIEVE ALL - http://appname.com/api/get (GET)
+// UPDATE - http://appname.com/api/update/:id (PUT)
+// DELETE - http://appname.com/api/delete/:id (DELETE)
+
 // ROUTES, logic is in routes/index.js
 
 var routes = require('./routes/index.js');
