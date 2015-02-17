@@ -43,13 +43,19 @@ exports.create = function(req,res){
 
 	console.log(req.body);
 
-	// pull out the data
+	// pull out the location
 	var name = req.body.name;
 	var location = req.body.location;
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data);
+	  console.log(data.geometry);
+
+	  var userData = {
+	  	name: req.body.name,
+	  	locationName: data[0].formatted_address,
+	  	locationGeo: data[0].geometry
+	  }
 	});		
 }
 
