@@ -1,6 +1,6 @@
-## Create Rour Own API with Node.js, MongoDb, Express.js, Heroku Boilerplate
+## Create Rour Own RESTful API with Node.js, MongoDb, Express.js, Heroku Boilerplate
 
-This is boilerplate code for setting up a simple node.js API app using: the express.js framework, a MongoDb database (with the help of Mongoose), and hosting it on Heroku. Please refer to the following documentation for each of these components:
+This is boilerplate code for setting up a simple node.js RESTful API app using: the express.js framework, a MongoDb database (with the help of Mongoose), and hosting it on Heroku. Please refer to the following documentation for each of these components:
 
 * Node.js: <http://nodejs.org/>
 * Express.js: <http://expressjs.com/>
@@ -145,46 +145,57 @@ Typical REST queries will look like:
 * UPDATE - http://example.com/api/update/:id (PUT)
 * DELETE - http://example.com/api/delete/:id (DELETE)
 
-The above are typically called API endpoints, clients interact with your API by sending requests to these endpoints. Remember, a client can be anything that can send an HTTP request, such as a browser, a mobile app, an Arduino Yun, etc.
+The above are typically called API endpoints, and client applications interact with your API by sending requests to these endpoints. Remember, a client can be anything that can send an HTTP request, such as a browser, a mobile app, an Arduino Yun, etc.
 
-Routing is how your app handles the HTTP request: performing the appropriate action and responding back to the client.
+Routing is how your app handles these incoming HTTP requests: performing the appropriate action and responding back to the client.
 
-In node.js (using Express), this is done through executing a callback function. In human language: when this request is received, perform this action, and respond back (usually with data/JSON).
+In node.js (using Express), this is done through executing a callback function. In human language: 
+
+	when this request is received, perform this action, and respond back (usually with JSON).
 
 For example:
 
-  // when the user requests the 'api/get' route, call a function
-  // this function retrieves the data, and responds back
+  // when the user requests the 'api/get' route, call a function that retrieves the data, and responds back
 
 	app.get('api/get',function(request, response){
-		// code goes here
-		// step 1 - retrieve data
-		// step 2 - respond back with res.json();
+		// step 1 - code to retrieve data
+		// step 2 - code to respond back with res.json();
 	})
 
 -----
 
 #### App Dependencies and package.json
 
-A nice part about the ExpressJS framework (and nodejs in general) is the NPM system. NPM stands for Node Package Manager, and it allows us to access helpful node packages (libraries) that we can use in our app.
+A nice part about the ExpressJS framework (and nodejs in general) is the NPM system. NPM stands for Node Package Manager, and it allows us to include helpful node packages (libraries) that we can use in our app.
 
 For example, open up package.json. You can see we are setting our dependent packages. When you run npm install, all of these dependencies will be installed in your node_modules folder.
 
 package.json
 	
 	...
-	"dependencies": {
-	    "express": "^4.10.7",
-  	},
+  "dependencies": {
+    "body-parser": "^1.10.1",
+    "express": "^4.10.7",
+    "geocoder": "^0.2.2",
+    "method-override": "^2.3.1",
+    "moment": "^2.9.0",
+    "mongoose": "^3.8.21",
+    "request": "^2.51.0"
+  },
   	...
 
 Dependencies are then declared in app.js like:
 
-var express = require('express');
+	var express = require('express');
+	var http = require('http');
+	var path = require('path');
+	var mongoose = require('mongoose');
+	var bodyParser = require('body-parser');
+	var methodOverride = require('method-override');
 
 To add a new node package, do the following in terminal:
 
 	npm install --save nameOfPackage
 
-The --save flag will automatically put the package in package.json as a dependency.
+The --save flag will automatically include the package in package.json as a dependency.
 
