@@ -49,12 +49,12 @@ exports.create = function(req,res){
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data.geometry);
+	  console.log(data.results[0].geometry);
 
 	  var userData = {
 	  	name: req.body.name,
-	  	locationName: data[0].formatted_address,
-	  	locationGeo: data[0].geometry
+	  	locationName: data.results[0].formatted_address,
+	  	locationGeo: data.results[0].geometry
 	  }
 	});		
 }
