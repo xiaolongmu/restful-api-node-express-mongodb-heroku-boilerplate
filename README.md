@@ -172,17 +172,15 @@ For example, open up package.json. You can see we are setting our dependent pack
 
 package.json
 	
-	...
-  "dependencies": {
-    "body-parser": "^1.10.1",
-    "express": "^4.10.7",
-    "geocoder": "^0.2.2",
-    "method-override": "^2.3.1",
-    "moment": "^2.9.0",
-    "mongoose": "^3.8.21",
-    "request": "^2.51.0"
-  },
-  	...
+	"dependencies": {
+	  "body-parser": "^1.10.1",
+	  "express": "^4.10.7",
+	  "geocoder": "^0.2.2",
+	  "method-override": "^2.3.1",
+	  "moment": "^2.9.0",
+	  "mongoose": "^3.8.21",
+	  "request": "^2.51.0"
+	}
 
 Dependencies are then declared in app.js like:
 
