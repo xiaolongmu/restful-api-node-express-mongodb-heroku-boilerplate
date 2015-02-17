@@ -26,7 +26,7 @@ app.use(methodOverride());
 app.db = mongoose.connect(process.env.MONGOLAB_URI);
 console.log("connected to database");
 
-// api base URI is at /api/
+// api baseURI is at /api/
 
 // API Routes 
 
@@ -40,30 +40,26 @@ console.log("connected to database");
 
 var routes = require('./routes/index.js');
 
-// home page
+// home route is not really an API route, but does respond back
 app.get('/', routes.index); // calls index function in /routes/index.js
 
-//add new food routes
-app.get('/add',routes.addFoodForm); //display form to add a new food product
-app.post('/add',routes.addFoodToDb); //form POST submits here
+// API routes
+app.post('/api/create', routes.create); // API create route and callback (see /routes/index.js)
+app.get('/api/get/:id', routes.getOne); // API retrieve 1 route and callback (see /routes/index.js)
+app.get('/api/get', routes.getAll); // API retrieve all route and callback (see /routes/index.js)
+app.post('/api/update/:id', routes.update); // API update route and callback (see /routes/index.js)
+app.get('/api/delete/:id', routes.remove); // API delete route and callback (see /routes/index.js)
 
-// display a single food item
-// for example '/food/chunky-peanut-butter'
-app.get('/food/:slug', routes.oneFood);
+// if route not found, respond with 404
+app.use(function(req, res, next){
 
-// edit food item
-app.get('/food/:slug/edit', routes.editFoodForm); //GET the edit form
-app.post('/food/:slug/edit', routes.updateFoodToDb); //PUT - update food
-
-// delete a food
-app.get('/food/:slug/delete', routes.deleteFood);
-
-// increment food's upvotes
-app.get('/food/:slug/upvote', routes.incrementUpvote);
-
-// Make the data into an API - JSON Data routes
-app.get('/api/food',routes.allFoodApi);
-app.get('/api/food/:slug', routes.oneFoodApi);
+	var data = {
+		status: 'ERROR',
+		message: 'Sorry, we cannot find the requested URI'
+	}
+	// set status as 404 and respond with data
+  res.status(404).send(data);
+});
 
 // create NodeJS HTTP server using 'app'
 http.createServer(app).listen(app.get('port'), function(){
