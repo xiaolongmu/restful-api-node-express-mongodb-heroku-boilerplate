@@ -26,6 +26,21 @@ app.use(methodOverride());
 app.db = mongoose.connect(process.env.MONGOLAB_URI);
 console.log("connected to database");
 
+/**
+ * CORS support for AJAX requests
+ */
+
+app.all('*', function(req, res, next){
+  if (!req.get('Origin')) return next();
+  // use "*" here to accept any origin
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'PUT');
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  // res.set('Access-Control-Allow-Max-Age', 3600);
+  if ('OPTIONS' == req.method) return res.send(200);
+  next();
+});
+
 // api baseURI is at /api/
 
 // API Routes 
@@ -53,12 +68,13 @@ app.get('/api/delete/:id', routes.remove); // API delete route and callback (see
 // if route not found, respond with 404
 app.use(function(req, res, next){
 
-	var data = {
+	var jsonData = {
 		status: 'ERROR',
 		message: 'Sorry, we cannot find the requested URI'
 	}
 	// set status as 404 and respond with data
-  res.status(404).send(data);
+  res.status(404).send(jsonData);
+
 });
 
 // create NodeJS HTTP server using 'app'

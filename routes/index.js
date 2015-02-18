@@ -205,7 +205,7 @@ exports.update = function(req,res){
 	  Person.findByIdAndUpdate(requestedId, dataToUpdate, function(err,data){
 	  	// if err saving, respond back with error
 	  	if (err){
-	  		var jsonData = {status:'ERROR', message: 'Error saving person'};
+	  		var jsonData = {status:'ERROR', message: 'Error updating person'};
 	  		return res.json(jsonData);
 	  	}
 
