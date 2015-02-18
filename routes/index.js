@@ -49,7 +49,14 @@ exports.create = function(req,res){
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data.results[0].geometry.location);
+
+		console.log(data);
+
+  	if (err || !data.results){
+  		// respond back with error
+  		var jsonData = {status:'error', message: 'Error finding location'};
+  		res.json(jsonData);
+  	}
 
 	  var locationName = data.results[0].formatted_address;
 	  var lon = data.results[0].geometry.location.lng;
