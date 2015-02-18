@@ -202,7 +202,7 @@ exports.update = function(req,res){
 
 	  // now, update that person
 		// mongoose method, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate  
-	  person.findByIdAndUpdate(requestedId, dataToUpdate, function(err,data){
+	  Person.findByIdAndUpdate(requestedId, dataToUpdate, function(err,data){
 	  	// if err saving, respond back with error
 	  	if (err){
 	  		var jsonData = {status:'ERROR', message: 'Error saving person'};
