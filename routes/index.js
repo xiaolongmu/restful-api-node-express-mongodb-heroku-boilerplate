@@ -49,11 +49,11 @@ exports.create = function(req,res){
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data.results[0].geometry.bounds);
+	  console.log(data.results[0].geometry.location);
 
 	  var locationName = data.results[0].formatted_address;
-	  var lon = data.results[0].geometry.bounds.location.lng;
-		var lat = data.results[0].geometry.bounds.location.lat;
+	  var lon = data.results[0].geometry.location.lng;
+		var lat = data.results[0].geometry.location.lat;
   	
   	// need to put the geo co-ordinates in an array for saving
   	var lnglat_array = [lon,lat];
