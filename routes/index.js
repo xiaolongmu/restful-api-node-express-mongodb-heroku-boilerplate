@@ -43,19 +43,47 @@ exports.create = function(req,res){
 
 	console.log(req.body);
 
-	// pull out the location
+	// pull out the name and location
 	var name = req.body.name;
 	var location = req.body.location;
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data.results[0].geometry);
+	  console.log(data);
 
-	  var userData = {
-	  	name: req.body.name,
-	  	locationName: data.results[0].formatted_address,
-	  	locationGeo: data.results[0].geometry
-	  }
+	  var locationName = data.results[0].formatted_address;
+	  var lon = data.results[0].geometry.bounds.location.lng;
+		var lat = data.results[0].geometry.bounds.location.lat;
+  	
+  	// need to put the geo co-ordinates in an array for saving
+  	var lnglat_array = [lon,lat];
+
+	  var person = Person({
+	  	name: name,
+	  	locationName: locationName,
+	  	locationGeo: lnglat_array
+	  });
+
+	  // now, save that person to the database
+	  person.save(function(err,data){
+	  	if (err){
+	  		var jsonData = {status:'error', message: 'Error saving person'};
+	  		return res.json(jsonData);
+	  	}
+
+	  	console.log('saved a new person!');
+	  	console.log(data);
+
+	  	// now return the json data of the new person
+	  	var jsonData = {
+	  		status: 'OK',
+	  		person: data
+	  	}
+
+	  	return res.json(jsonData);
+
+	  })
+
 	});		
 }
 
