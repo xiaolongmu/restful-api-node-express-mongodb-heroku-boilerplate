@@ -49,7 +49,7 @@ exports.create = function(req,res){
 
 	//now, geocode that location
 	geocoder.geocode(location, function ( err, data ) {
-	  console.log(data.results[0].geometry.bounds.location);
+	  console.log(data.results[0].geometry.bounds);
 
 	  var locationName = data.results[0].formatted_address;
 	  var lon = data.results[0].geometry.bounds.location.lng;
@@ -67,8 +67,9 @@ exports.create = function(req,res){
 	  // now, save that person to the database
 	  person.save(function(err,data){
 	  	if (err){
+	  		// respond back with error
 	  		var jsonData = {status:'error', message: 'Error saving person'};
-	  		return res.json(jsonData);
+	  		res.json(jsonData);
 	  	}
 
 	  	console.log('saved a new person!');
@@ -80,7 +81,7 @@ exports.create = function(req,res){
 	  		person: data
 	  	}
 
-	  	return res.json(jsonData);
+	  	res.json(jsonData);
 
 	  })
 
