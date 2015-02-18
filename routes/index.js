@@ -51,18 +51,20 @@ exports.create = function(req,res){
 	geocoder.geocode(location, function ( err, data ) {
 
 		console.log(data);
-
+  	
+  	// if we get an error, or don't have any results, respond back with error
   	if (err || !data.results){
-  		// respond back with error
   		var jsonData = {status:'error', message: 'Error finding location'};
   		res.json(jsonData);
   	}
 
-	  var locationName = data.results[0].formatted_address;
+  	// otherwise, save the user
+
+	  var locationName = data.results[0].formatted_address; // the location name
 	  var lon = data.results[0].geometry.location.lng;
 		var lat = data.results[0].geometry.location.lat;
   	
-  	// need to put the geo co-ordinates in an array for saving
+  	// need to put the geo co-ordinates in a lng-lat array for saving
   	var lnglat_array = [lon,lat];
 
 	  var person = Person({
@@ -73,8 +75,8 @@ exports.create = function(req,res){
 
 	  // now, save that person to the database
 	  person.save(function(err,data){
+	  	// if err saving, respond back with error
 	  	if (err){
-	  		// respond back with error
 	  		var jsonData = {status:'error', message: 'Error saving person'};
 	  		res.json(jsonData);
 	  	}
